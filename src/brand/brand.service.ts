@@ -11,11 +11,11 @@ export class BrandService {
         return await this.prismaService.brand.findMany()
     }
 
-    async create(createBrandDto : CreateBrandDto){
+    async create(createBrandDto : CreateBrandDto, file){
         return  await this.prismaService.brand.create({
           data : {
              name : createBrandDto.name,
-             logo : createBrandDto.logo
+             logo : file.path
           }
         })
     }
