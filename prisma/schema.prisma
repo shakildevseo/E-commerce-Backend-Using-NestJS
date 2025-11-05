@@ -23,11 +23,36 @@ model Brand {
 model Product {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
-  image String?
+  photo String?
+  price String
+  stock Int
   brandId String? @db.ObjectId 
   brand Brand? @relation(fields : [brandId], references : [id])
+  categories    ProductCategories[]
   status Boolean @default(true)
   createAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
+}
+
+model Category{
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String
+  description String
+  logo  String
+  products ProductCategories[]
+
+}
+
+model ProductCategories {
+   id          String      @id @default(auto()) @map("_id") @db.ObjectId 
+  product   Product   @relation(fields: [productId], references: [id])
+  productId String    @db.ObjectId
+  category  Category @relation(fields: [categoryId], references: [id])
+  categoryId String    @db.ObjectId
+
+  createAt  DateTime @default(now())
+  updateAt  DateTime @updatedAt
+@@unique([productId, categoryId])
+ 
 }

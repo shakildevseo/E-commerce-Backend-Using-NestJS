@@ -7,6 +7,8 @@ import { PrismaModule } from './prisma/prisma.module';
 import { MulterModule } from './multer/multer.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
+import { CategoryModule } from './category/category.module';
+import { ProductModule } from './product/product.module';
 
 @Module({
   imports: [
@@ -17,9 +19,12 @@ import { join } from 'path';
     PrismaModule,
     MulterModule,
     ServeStaticModule.forRoot({
-    rootPath : join(__dirname, "public", "brand"),
-    serveRoot : "/public/brand/"
-    })
+    rootPath : join(__dirname, "public"),
+    serveRoot : "/public"
+    }),
+    CategoryModule,
+    ProductModule,
+   
   ],
   controllers: [AppController],
   providers: [AppService],
