@@ -7,21 +7,71 @@ import { CreateBrandDto } from './dto/create-brand.dto';
 export class BrandService {
     constructor(private prismaService : PrismaService ){}
 
+
+    /**
+     *
+     *
+     * @return {find all brand} 
+     * @memberof BrandService
+     */
     async findAll(){
-        return await this.prismaService.brand.findMany()
+         const allBrand = await this.prismaService.brand.findMany()
+         return{
+            count : allBrand.length,
+            allBrand 
+         }
+
     }
 
-    async create(createBrandDto : CreateBrandDto, file){
-        return  await this.prismaService.brand.create({
-          data : {
-             name : createBrandDto.name,
-             logo : file.path
-          }
+    
+/**
+ *
+ *
+ * @param {string} id
+ * @return {find single brand by id} 
+ * @memberof BrandService
+ */
+async findSingleBrandById(id : string){
+        return await this.prismaService.brand.findUnique({
+            where : {id}
         })
     }
 
-  async  update(id : string, updateBrandDto : UpdateBrandDto){
-    const data = await this.prismaService.brand.update({
+    /**
+     *
+     *
+     * @param {CreateBrandDto} createBrandDto
+     * @param {*} file
+     * @return {Create Brand} 
+     * @memberof BrandService
+     */
+    async create(createBrandDto : CreateBrandDto, file){
+        const created  =  await this.prismaService.brand.create({
+          data : {
+             name : createBrandDto.name,
+             description :createBrandDto.description,
+             logo : file.path
+
+          }
+        })
+        return {
+            message : "Brand Created Successfully",
+            data : created
+        }
+    }
+
+
+
+  /**
+   *
+   *
+   * @param {string} id
+   * @param {UpdateBrandDto} updateBrandDto
+   * @return {Update Brand} 
+   * @memberof BrandService
+   */
+  async  update(id : string, updateBrandDto : UpdateBrandDto, ){
+    const updated = await this.prismaService.brand.update({
         where : {id},
           data : updateBrandDto
     })
@@ -29,10 +79,18 @@ export class BrandService {
 
     return {
         message : "Product Update Successfully",
-        data 
+        updated 
     }
   }
-    async delete(id : string){
+
+  /**
+   *
+   *
+   * @param {string} id
+   * @return {Delete Brand} 
+   * @memberof BrandService
+   */
+  async delete(id : string){
         const data = await this.prismaService.brand.delete({
             where : {id}
         })

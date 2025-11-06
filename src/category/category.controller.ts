@@ -20,6 +20,13 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 export class CategoryController {
   constructor(private readonly categoryService: CategoryService) {}
 
+
+  /**
+   *
+   *
+   * @return {} 
+   * @memberof CategoryController
+   */
   @Get()
   async findAll() {
     return await this.categoryService.findAll();
@@ -43,9 +50,9 @@ export class CategoryController {
 @UseInterceptors(FileInterceptor('logo'))
 
 async update(
-  @Param('id') id: string, @Body() updateCategoryDto: UpdateCategoryDto, @UploadedFile() file) {
- 
-  return this.categoryService.update(id, updateCategoryDto, file);
+  @Param('id') id: string, @Body(ValidationPipe) updateCategoryDto: UpdateCategoryDto,  ) {
+
+  return this.categoryService.update(id, updateCategoryDto);
 }
 
 

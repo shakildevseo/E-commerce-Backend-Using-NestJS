@@ -69,21 +69,17 @@ export class CategoryService {
     *
     * @param {string} id
     * @param {UpdateCategoryDto} updateCategoryDto
-    * @param {*} file
+    *
     * @return {Update Category} 
     * @memberof CategoryService
     */
-   async update(id : string, updateCategoryDto :UpdateCategoryDto,file  ){
+   async update(id : string, updateCategoryDto :UpdateCategoryDto  ){
+
    const updated = await this.prismaService.category.update({
         where : {id},
-        data : {
+        data : updateCategoryDto
 
-                name : updateCategoryDto.name,
-                description : updateCategoryDto.description,
-                logo : file.path
-        }
-
-    })
+    }) 
     return{
         message : "Update Successfully",
         updated

@@ -12,7 +12,8 @@ datasource db {
 model Brand {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
-  logo String?
+  logo String
+  description String
   products Product[]
   status Boolean @default(true)
   createAt DateTime @default(now())
@@ -23,7 +24,7 @@ model Brand {
 model Product {
   id String @id @default(auto()) @map("_id") @db.ObjectId
   name String
-  photo String?
+  photo String[]
   price String
   stock Int
   brandId String? @db.ObjectId 

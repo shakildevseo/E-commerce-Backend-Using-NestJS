@@ -7,7 +7,7 @@ export const  brandStorage = diskStorage({
       },
       filename : (req, file, cb)=>{
         cb(null, Date.now() + "_" + file.originalname)
-        console.log(file.originalname)
+ 
       }
     })
 export const  categoryStorage = diskStorage({
@@ -16,6 +16,6 @@ export const  categoryStorage = diskStorage({
       },
       filename : (req, file, cb)=>{
         cb(null, Date.now() + "_" + file.originalname)
-        console.log(file.originalname)
+        
       }
     })

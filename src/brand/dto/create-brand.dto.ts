@@ -6,9 +6,11 @@ export class CreateBrandDto {
     @IsNotEmpty()
     name: string
 
-   
-    @IsOptional()
-    logo : string
+    @IsNotEmpty()
+    @IsString()
+    description : string
+    
+    logo : any
 
     
     status : boolean

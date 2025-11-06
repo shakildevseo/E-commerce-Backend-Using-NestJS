@@ -1,7 +1,9 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, ValidationPipe } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UploadedFiles, UseInterceptors, ValidationPipe } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { FilesInterceptor } from '@nestjs/platform-express';
+import { storage } from 'src/utils/cloudinary';
 
 @Controller('product')
 export class ProductController {
@@ -18,8 +20,9 @@ export class ProductController {
     }
 
     @Post()
-   async  create(@Body(ValidationPipe) createProductDto : CreateProductDto){
-    return await this.productService.create(createProductDto)
+    @UseInterceptors(FilesInterceptor("photo", 10, {storage}))
+   async  create(@Body(new ValidationPipe({ transform: true })) createProductDto :CreateProductDto, @UploadedFiles() files){
+    return await this.productService.create(createProductDto, files)
     }
 
     @Patch(":id")
@@ -28,7 +31,7 @@ export class ProductController {
     }
 
     @Delete(":id")
-   async deleteProductById(@Param() id : string){
-    await this.productService.deleteProductById(id)
+   async deleteProductById(@Param("id") id : string){
+   return await this.productService.deleteProductById(id)
    }
 }

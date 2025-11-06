@@ -1,4 +1,5 @@
 import {
+  IsArray,
     IsBoolean,
   IsEmpty,
   IsNotEmpty,
@@ -6,6 +7,8 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Type } from 'class-transformer';
+
 
 export class CreateProductDto {
   @IsString()
@@ -13,18 +16,18 @@ export class CreateProductDto {
   name: string;
 
   @IsOptional()
-  @IsEmpty()
-
-  photo: string;
+  @IsArray()
+  @IsString({ each: true })
+  photo?: string[];
 
   @IsString()
   @IsNotEmpty()
   price: string;
-
+  @Type(() => Number)
   @IsNumber()
   stock: number;
 
-
-  
-  status : boolean
+  @IsOptional()
+  @IsBoolean()
+  status?: boolean;
 }
